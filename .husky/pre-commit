@@ -1,2 +1,4 @@
+pnpm test
+
 npx lint-staged
 
