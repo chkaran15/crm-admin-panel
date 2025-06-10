@@ -8,7 +8,7 @@ export default function HomePage() {
       <h1 className="text-lg font-bold">Vite + React</h1>
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+          count is {count} afasd
         </button>
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
