@@ -7,8 +7,16 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
     "preview": "vite preview",
     "prepare": "husky"
+  },
+  "lint-staged": {
+    "**/*": [
+      "pnpm run lint",
+      "pnpm run format"
+    ]
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.8",
@@ -35,6 +43,7 @@
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^16.0.0",
     "husky": "^9.1.7",
+    "lint-staged": "^16.1.0",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.30.1",
     "vite": "^6.3.5"
