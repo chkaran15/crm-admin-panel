@@ -1,5 +1,5 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
-import { GalleryVerticalEnd } from "lucide-react";
+import { Logs } from "lucide-react";
 
 export const Route = createFileRoute("/_auth")({
   beforeLoad: ({ context }) => {
@@ -19,13 +19,20 @@ export const Route = createFileRoute("/_auth")({
 function AuthLayout() {
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
+      <div className="bg-muted relative hidden lg:block">
+        <img
+          src="https://images.unsplash.com/photo-1576473318185-48d76fc03314?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTQ4fHxlY3JtfGVufDB8fDB8fHww"
+          alt="Image"
+          className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+        />
+      </div>
       <div className="flex flex-col gap-4 p-6 md:p-10">
         <div className="flex justify-center gap-2 md:justify-start">
           <a href="#" className="flex items-center gap-2 font-medium">
-            <div className="bg-primary text-primary-foreground flex size-6 items-center justify-center rounded-md">
-              <GalleryVerticalEnd className="size-4" />
+            <div className="s text-primary-foreground flex size-6 items-center justify-center rounded-md">
+              <Logs className="size-8 text-green-600 rotate-180" />
             </div>
-            Acme Inc.
+            E-Crm Portal
           </a>
         </div>
         <div className="flex flex-1 items-center justify-center">
@@ -33,13 +40,6 @@ function AuthLayout() {
             <Outlet />
           </div>
         </div>
-      </div>
-      <div className="bg-muted relative hidden lg:block">
-        <img
-          src="/placeholder.svg"
-          alt="Image"
-          className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
-        />
       </div>
     </div>
   );

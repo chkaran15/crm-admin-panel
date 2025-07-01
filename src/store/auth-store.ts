@@ -27,13 +27,13 @@ const useAuthStore = create<AuthStateProps>()(
     }),
     {
       name: "auth-storage",
-      partialize: (state) => {
-        // Persist only the necessary parts of the state
-        return {
-          authenticated: state.authenticated,
-          user: state.user,
-        };
-      },
+      // partialize: (state) => {
+      //   // Persist only the necessary parts of the state
+      //   return {
+      //     authenticated: state.authenticated,
+      //     user: state.user,
+      //   };
+      // },
     },
   ),
 );

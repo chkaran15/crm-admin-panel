@@ -15,7 +15,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { useRouter } from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
 
 const dummyAdminCredentials = {
   id: "1",
@@ -41,7 +41,7 @@ export function SignInForm({
 
   const { setAuth } = useAuthStore();
 
-  const router = useRouter();
+  const navigate = useNavigate();
 
   const onSubmit = async (data: SignInSchemaType) => {
     if (
@@ -59,7 +59,7 @@ export function SignInForm({
         },
       });
 
-      await router.navigate({ to: "/" });
+      await navigate({ to: "/" });
     } else {
       // Handle invalid credentials
       console.error("Invalid email or password");
@@ -133,7 +133,7 @@ export function SignInForm({
               )}
             />
           </div>
-          <Button type="submit" className="w-full">
+          <Button type="submit" className="w-full ">
             Login
           </Button>
 

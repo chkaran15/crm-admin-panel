@@ -13,16 +13,16 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useAuthStore } from "@/store/auth-store";
-import { useRouter } from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
 
 function NavProfile() {
   const { logout } = useAuthStore();
 
-  const router = useRouter();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     logout();
-    router.navigate({
+    navigate({
       to: "/sign-in",
     });
   };
