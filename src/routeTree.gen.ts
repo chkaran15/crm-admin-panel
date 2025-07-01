@@ -13,7 +13,6 @@
 import { Route as rootRoute } from "./routes/__root";
 import { Route as LayoutImport } from "./routes/_layout";
 import { Route as LayoutIndexImport } from "./routes/_layout/index";
-import { Route as LayoutDashboardIndexImport } from "./routes/_layout/dashboard/index";
 
 // Create/Update Routes
 
@@ -25,12 +24,6 @@ const LayoutRoute = LayoutImport.update({
 const LayoutIndexRoute = LayoutIndexImport.update({
   id: "/",
   path: "/",
-  getParentRoute: () => LayoutRoute,
-} as any);
-
-const LayoutDashboardIndexRoute = LayoutDashboardIndexImport.update({
-  id: "/dashboard/",
-  path: "/dashboard/",
   getParentRoute: () => LayoutRoute,
 } as any);
 
@@ -52,13 +45,6 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof LayoutIndexImport;
       parentRoute: typeof LayoutImport;
     };
-    "/_layout/dashboard/": {
-      id: "/_layout/dashboard/";
-      path: "/dashboard";
-      fullPath: "/dashboard";
-      preLoaderRoute: typeof LayoutDashboardIndexImport;
-      parentRoute: typeof LayoutImport;
-    };
   }
 }
 
@@ -66,12 +52,10 @@ declare module "@tanstack/react-router" {
 
 interface LayoutRouteChildren {
   LayoutIndexRoute: typeof LayoutIndexRoute;
-  LayoutDashboardIndexRoute: typeof LayoutDashboardIndexRoute;
 }
 
 const LayoutRouteChildren: LayoutRouteChildren = {
   LayoutIndexRoute: LayoutIndexRoute,
-  LayoutDashboardIndexRoute: LayoutDashboardIndexRoute,
 };
 
 const LayoutRouteWithChildren =
@@ -80,27 +64,24 @@ const LayoutRouteWithChildren =
 export interface FileRoutesByFullPath {
   "": typeof LayoutRouteWithChildren;
   "/": typeof LayoutIndexRoute;
-  "/dashboard": typeof LayoutDashboardIndexRoute;
 }
 
 export interface FileRoutesByTo {
   "/": typeof LayoutIndexRoute;
-  "/dashboard": typeof LayoutDashboardIndexRoute;
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute;
   "/_layout": typeof LayoutRouteWithChildren;
   "/_layout/": typeof LayoutIndexRoute;
-  "/_layout/dashboard/": typeof LayoutDashboardIndexRoute;
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath;
-  fullPaths: "" | "/" | "/dashboard";
+  fullPaths: "" | "/";
   fileRoutesByTo: FileRoutesByTo;
-  to: "/" | "/dashboard";
-  id: "__root__" | "/_layout" | "/_layout/" | "/_layout/dashboard/";
+  to: "/";
+  id: "__root__" | "/_layout" | "/_layout/";
   fileRoutesById: FileRoutesById;
 }
 
@@ -128,16 +109,11 @@ export const routeTree = rootRoute
     "/_layout": {
       "filePath": "_layout.tsx",
       "children": [
-        "/_layout/",
-        "/_layout/dashboard/"
+        "/_layout/"
       ]
     },
     "/_layout/": {
       "filePath": "_layout/index.tsx",
-      "parent": "/_layout"
-    },
-    "/_layout/dashboard/": {
-      "filePath": "_layout/dashboard/index.tsx",
       "parent": "/_layout"
     }
   }
