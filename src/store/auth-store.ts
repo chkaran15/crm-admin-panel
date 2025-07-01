@@ -1,26 +1,39 @@
-import type { AuthState } from "@/features/(auth)/interface/auth.interface";
+import type {
+  AuthState,
+  AuthStateProps,
+} from "@/features/(auth)/interface/auth.interface";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-const initialAuthState = {
-  isAuthenticated: false,
-  loading: false,
+const initialAuthState: AuthState = {
+  authenticated: false,
   user: null, // Replace with your user type if needed
-  setAuth: () => {},
-  logout: () => {},
 };
 
-const useAuthStore = create<AuthState>()(
+const useAuthStore = create<AuthStateProps>()(
   persist(
-    (set) => {
-      return {
-        ...initialAuthState,
-        setAuth: (prevAuth) => set({ ...prevAuth, loading: false }),
-        logout: () => set(initialAuthState),
-      };
-    },
+    (set, get) => ({
+      ...initialAuthState,
+      isAuthenticated: () => {
+        const state = get();
+        return state.authenticated && state.user !== null;
+      },
+      setAuth: (authData: AuthState) =>
+        set({
+          authenticated: authData.authenticated,
+          user: authData.user,
+        }),
+      logout: () => set(initialAuthState),
+    }),
     {
-      name: "auth-storage", // Name of the storage key
+      name: "auth-storage",
+      partialize: (state) => {
+        // Persist only the necessary parts of the state
+        return {
+          authenticated: state.authenticated,
+          user: state.user,
+        };
+      },
     },
   ),
 );

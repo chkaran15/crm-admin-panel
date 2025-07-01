@@ -14,7 +14,7 @@ export function ThemeToggle() {
 
   return (
     <Tooltip>
-      <TooltipTrigger>
+      <TooltipTrigger asChild>
         <Button
           variant="outline"
           className="cursor-pointer rounded-full"

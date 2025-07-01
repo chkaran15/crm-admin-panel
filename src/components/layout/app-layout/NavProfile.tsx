@@ -12,8 +12,20 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useAuthStore } from "@/store/auth-store";
+import { useRouter } from "@tanstack/react-router";
 
 function NavProfile() {
+  const { logout } = useAuthStore();
+
+  const router = useRouter();
+
+  const handleLogout = () => {
+    logout();
+    router.navigate({
+      to: "/sign-in",
+    });
+  };
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
@@ -35,7 +47,7 @@ function NavProfile() {
         <DropdownMenuItem>Profile</DropdownMenuItem>
         <DropdownMenuItem>Billing</DropdownMenuItem>
         <DropdownMenuItem>Team</DropdownMenuItem>
-        <DropdownMenuItem>Subscription</DropdownMenuItem>
+        <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

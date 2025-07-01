@@ -3,11 +3,19 @@ import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 export const Route = createFileRoute("/_panel")({
   beforeLoad: ({ context }) => {
     // If not authenticated, redirect to sign-in
-    if (!context.auth.isAuthenticated) {
+    if (!context.auth.authenticated) {
       throw redirect({
         to: "/sign-in",
       });
     }
   },
-  component: () => <Outlet />,
+  component: PanelLayout,
 });
+
+function PanelLayout() {
+  return (
+    <div>
+      <Outlet />
+    </div>
+  );
+}

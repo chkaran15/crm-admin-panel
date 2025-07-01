@@ -10,6 +10,7 @@ const queryClient = new QueryClient();
 
 function App({ router }: AppProps) {
   const auth = useAuthStore();
+
   return (
     <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
       <QueryClientProvider client={queryClient}>

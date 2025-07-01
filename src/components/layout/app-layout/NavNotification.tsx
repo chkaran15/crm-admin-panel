@@ -17,7 +17,7 @@ import { Bell } from "lucide-react";
 function NavNotification() {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>
+      <DropdownMenuTrigger asChild>
         <Tooltip>
           <TooltipTrigger asChild>
             <Button
