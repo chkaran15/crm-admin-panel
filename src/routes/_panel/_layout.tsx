@@ -2,7 +2,7 @@ import AppLayout from "@/components/layout/app-layout/AppLayout";
 
 import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/_layout")({
+export const Route = createFileRoute("/_panel/_layout")({
   component: LayoutComponent,
 });
 

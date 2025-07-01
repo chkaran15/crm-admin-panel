@@ -11,86 +11,181 @@
 // Import Routes
 
 import { Route as rootRoute } from "./routes/__root";
-import { Route as LayoutImport } from "./routes/_layout";
-import { Route as LayoutIndexImport } from "./routes/_layout/index";
+import { Route as ErrorImport } from "./routes/error";
+import { Route as PanelImport } from "./routes/_panel";
+import { Route as AuthImport } from "./routes/_auth";
+import { Route as PanelLayoutImport } from "./routes/_panel/_layout";
+import { Route as AuthSignInImport } from "./routes/_auth/sign-in";
+import { Route as PanelLayoutIndexImport } from "./routes/_panel/_layout/index";
 
 // Create/Update Routes
 
-const LayoutRoute = LayoutImport.update({
-  id: "/_layout",
+const ErrorRoute = ErrorImport.update({
+  id: "/error",
+  path: "/error",
   getParentRoute: () => rootRoute,
 } as any);
 
-const LayoutIndexRoute = LayoutIndexImport.update({
+const PanelRoute = PanelImport.update({
+  id: "/_panel",
+  getParentRoute: () => rootRoute,
+} as any);
+
+const AuthRoute = AuthImport.update({
+  id: "/_auth",
+  getParentRoute: () => rootRoute,
+} as any);
+
+const PanelLayoutRoute = PanelLayoutImport.update({
+  id: "/_layout",
+  getParentRoute: () => PanelRoute,
+} as any);
+
+const AuthSignInRoute = AuthSignInImport.update({
+  id: "/sign-in",
+  path: "/sign-in",
+  getParentRoute: () => AuthRoute,
+} as any);
+
+const PanelLayoutIndexRoute = PanelLayoutIndexImport.update({
   id: "/",
   path: "/",
-  getParentRoute: () => LayoutRoute,
+  getParentRoute: () => PanelLayoutRoute,
 } as any);
 
 // Populate the FileRoutesByPath interface
 
 declare module "@tanstack/react-router" {
   interface FileRoutesByPath {
-    "/_layout": {
-      id: "/_layout";
+    "/_auth": {
+      id: "/_auth";
       path: "";
       fullPath: "";
-      preLoaderRoute: typeof LayoutImport;
+      preLoaderRoute: typeof AuthImport;
       parentRoute: typeof rootRoute;
     };
-    "/_layout/": {
-      id: "/_layout/";
+    "/_panel": {
+      id: "/_panel";
+      path: "";
+      fullPath: "";
+      preLoaderRoute: typeof PanelImport;
+      parentRoute: typeof rootRoute;
+    };
+    "/error": {
+      id: "/error";
+      path: "/error";
+      fullPath: "/error";
+      preLoaderRoute: typeof ErrorImport;
+      parentRoute: typeof rootRoute;
+    };
+    "/_auth/sign-in": {
+      id: "/_auth/sign-in";
+      path: "/sign-in";
+      fullPath: "/sign-in";
+      preLoaderRoute: typeof AuthSignInImport;
+      parentRoute: typeof AuthImport;
+    };
+    "/_panel/_layout": {
+      id: "/_panel/_layout";
+      path: "";
+      fullPath: "";
+      preLoaderRoute: typeof PanelLayoutImport;
+      parentRoute: typeof PanelImport;
+    };
+    "/_panel/_layout/": {
+      id: "/_panel/_layout/";
       path: "/";
       fullPath: "/";
-      preLoaderRoute: typeof LayoutIndexImport;
-      parentRoute: typeof LayoutImport;
+      preLoaderRoute: typeof PanelLayoutIndexImport;
+      parentRoute: typeof PanelLayoutImport;
     };
   }
 }
 
 // Create and export the route tree
 
-interface LayoutRouteChildren {
-  LayoutIndexRoute: typeof LayoutIndexRoute;
+interface AuthRouteChildren {
+  AuthSignInRoute: typeof AuthSignInRoute;
 }
 
-const LayoutRouteChildren: LayoutRouteChildren = {
-  LayoutIndexRoute: LayoutIndexRoute,
+const AuthRouteChildren: AuthRouteChildren = {
+  AuthSignInRoute: AuthSignInRoute,
 };
 
-const LayoutRouteWithChildren =
-  LayoutRoute._addFileChildren(LayoutRouteChildren);
+const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren);
+
+interface PanelLayoutRouteChildren {
+  PanelLayoutIndexRoute: typeof PanelLayoutIndexRoute;
+}
+
+const PanelLayoutRouteChildren: PanelLayoutRouteChildren = {
+  PanelLayoutIndexRoute: PanelLayoutIndexRoute,
+};
+
+const PanelLayoutRouteWithChildren = PanelLayoutRoute._addFileChildren(
+  PanelLayoutRouteChildren,
+);
+
+interface PanelRouteChildren {
+  PanelLayoutRoute: typeof PanelLayoutRouteWithChildren;
+}
+
+const PanelRouteChildren: PanelRouteChildren = {
+  PanelLayoutRoute: PanelLayoutRouteWithChildren,
+};
+
+const PanelRouteWithChildren = PanelRoute._addFileChildren(PanelRouteChildren);
 
 export interface FileRoutesByFullPath {
-  "": typeof LayoutRouteWithChildren;
-  "/": typeof LayoutIndexRoute;
+  "": typeof PanelLayoutRouteWithChildren;
+  "/error": typeof ErrorRoute;
+  "/sign-in": typeof AuthSignInRoute;
+  "/": typeof PanelLayoutIndexRoute;
 }
 
 export interface FileRoutesByTo {
-  "/": typeof LayoutIndexRoute;
+  "": typeof PanelRouteWithChildren;
+  "/error": typeof ErrorRoute;
+  "/sign-in": typeof AuthSignInRoute;
+  "/": typeof PanelLayoutIndexRoute;
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute;
-  "/_layout": typeof LayoutRouteWithChildren;
-  "/_layout/": typeof LayoutIndexRoute;
+  "/_auth": typeof AuthRouteWithChildren;
+  "/_panel": typeof PanelRouteWithChildren;
+  "/error": typeof ErrorRoute;
+  "/_auth/sign-in": typeof AuthSignInRoute;
+  "/_panel/_layout": typeof PanelLayoutRouteWithChildren;
+  "/_panel/_layout/": typeof PanelLayoutIndexRoute;
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath;
-  fullPaths: "" | "/";
+  fullPaths: "" | "/error" | "/sign-in" | "/";
   fileRoutesByTo: FileRoutesByTo;
-  to: "/";
-  id: "__root__" | "/_layout" | "/_layout/";
+  to: "" | "/error" | "/sign-in" | "/";
+  id:
+    | "__root__"
+    | "/_auth"
+    | "/_panel"
+    | "/error"
+    | "/_auth/sign-in"
+    | "/_panel/_layout"
+    | "/_panel/_layout/";
   fileRoutesById: FileRoutesById;
 }
 
 export interface RootRouteChildren {
-  LayoutRoute: typeof LayoutRouteWithChildren;
+  AuthRoute: typeof AuthRouteWithChildren;
+  PanelRoute: typeof PanelRouteWithChildren;
+  ErrorRoute: typeof ErrorRoute;
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  LayoutRoute: LayoutRouteWithChildren,
+  AuthRoute: AuthRouteWithChildren,
+  PanelRoute: PanelRouteWithChildren,
+  ErrorRoute: ErrorRoute,
 };
 
 export const routeTree = rootRoute
@@ -103,18 +198,40 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/_layout"
+        "/_auth",
+        "/_panel",
+        "/error"
       ]
     },
-    "/_layout": {
-      "filePath": "_layout.tsx",
+    "/_auth": {
+      "filePath": "_auth.tsx",
       "children": [
-        "/_layout/"
+        "/_auth/sign-in"
       ]
     },
-    "/_layout/": {
-      "filePath": "_layout/index.tsx",
-      "parent": "/_layout"
+    "/_panel": {
+      "filePath": "_panel.tsx",
+      "children": [
+        "/_panel/_layout"
+      ]
+    },
+    "/error": {
+      "filePath": "error.tsx"
+    },
+    "/_auth/sign-in": {
+      "filePath": "_auth/sign-in.tsx",
+      "parent": "/_auth"
+    },
+    "/_panel/_layout": {
+      "filePath": "_panel/_layout.tsx",
+      "parent": "/_panel",
+      "children": [
+        "/_panel/_layout/"
+      ]
+    },
+    "/_panel/_layout/": {
+      "filePath": "_panel/_layout/index.tsx",
+      "parent": "/_panel/_layout"
     }
   }
 }
