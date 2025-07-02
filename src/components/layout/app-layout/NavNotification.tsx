@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,20 +16,16 @@ import { Bell } from "lucide-react";
 function NavNotification() {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+      <DropdownMenuTrigger>
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button
-              variant="outline"
-              className="cursor-pointer rounded-full bg-transparent border-none shadow-none relative"
-              size="icon"
-            >
-              <Bell className="size-6 " size={20} />
-              <span className="absolute min-w-[1.5rem] min-h-[1.5rem] text-xs flex justify-center items-center  -top-2 -right-2 bg-destructive text-background border-[2px] border-background rounded-full">
+            <div className="cursor-pointer size-[36px] hover:bg-background rounded-full flex justify-center items-center relative">
+              <Bell className="size-6 " />
+              <span className="absolute min-w-[1.5rem] min-h-[1.5rem] text-xs flex justify-center items-center  -top-1 -right-1 bg-destructive text-background border-[2px] border-background rounded-full">
                 12
               </span>
               <span className="sr-only">Notification</span>
-            </Button>
+            </div>
           </TooltipTrigger>
           <TooltipContent>
             <p>Notification</p>

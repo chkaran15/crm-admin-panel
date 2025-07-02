@@ -1,7 +1,7 @@
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { ThemeToggle } from "./layout/app-layout/ThemeToggle";
-import NavProfile from "./layout/app-layout/NavProfile";
-import NavNotification from "./layout/app-layout/NavNotification";
+import { ThemeToggle } from "./ThemeToggle";
+import NavProfile from "./NavProfile";
+import NavNotification from "./NavNotification";
 
 export function SiteHeader() {
   return (
